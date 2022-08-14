@@ -1,3 +1,10 @@
 *{
     outline: dashed red;
 }
+
+.posters{
+    width: 343px;
+    height: 508px;
+    border: solid black 2px;  
+    box-shadow: 5px 5px gray; 
+}
