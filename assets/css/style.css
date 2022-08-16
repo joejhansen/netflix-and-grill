@@ -1,6 +1,6 @@
 *{
-    outline: dashed red;
-}
+    /* outline: dashed red; */
+    }
 
 .posters{
     width: 343px;
@@ -8,3 +8,20 @@
     border: solid black 2px;  
     box-shadow: 5px 5px gray; 
 }
+
+#header{
+    background-color: #b71c1c;
+    outline: 4px solid #424242;
+}
+.title {
+    background-color: #ef6c00;
+    color: #ffd54f;
+    outline: 4px solid #424242;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.flamablanca {
+    outline: solid #424242 5px;
+    margin: 5px;
+    margin-top: 5px;
+   }
