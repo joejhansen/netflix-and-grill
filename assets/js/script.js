@@ -9,6 +9,15 @@ var counter = 0
 var movieInfo 
 var foodInfo = []
 
+const options = {
+    method: 'GET',
+    headers: {
+        'X-RapidAPI-Key': 'd0fd3366f2msh29853210c764e81p1e3a72jsna93a667889f4',
+        'X-RapidAPI-Host': 'travel-advisor.p.rapidapi.com'
+    }
+};
+
+
 // removing stuff in the DOM first and second row
 function removeSplash() {
     while (row1Vanilla.firstChild) {
@@ -30,6 +39,19 @@ function initFetches() {
         // has to be done strictly after the data has loaded or else we get an error
         .then(displayMoviePosters)
 }
+function foodfetch(){
+    navigator.geolocation.getCurrentPosition((success) =>{ 
+
+        let {latitude,longitude} = success.coords;
+        fetch('https://travel-advisor.p.rapidapi.com/restaurants/list-by-latlng?'+latitude+'&'+longitude+'&limit=9&currency=USD&distance=7&open_now=false&lunit=km&lang=en_US', options)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(data => loadRestaurants(data))
+
+       
+    })
+}
 
 // loads up the movies into a global array
 function loadMovies(data) {
@@ -43,6 +65,20 @@ function loadMovies(data) {
             isChosen: false,
         }
         movieInfo.push(thisMovie)
+    }
+}
+function loadRestaurants(data){
+    console.log(data)
+    restaurantInfo = []
+    for (let i = 0; i < 9; i++) {
+        var displayRestaurant = {
+            position: i,
+            photo: data.items[i].photo.images.medium,
+            name: data.items[i].name,
+            ifChosen: false,
+        }
+        restaurantInfo.push(displayRestaurant)
+    
     }
 }
 
