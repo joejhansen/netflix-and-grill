@@ -40,16 +40,20 @@ function initFetches() {
         .then(displayMoviePosters)
 }
 function foodfetch(){
-    navigator.geolocation.getCurrentPosition((success) =>{ 
+    counter=0
+    navigator.geolocation.getCurrentPosition((success) =>{
+
 
         let {latitude,longitude} = success.coords;
-        fetch('https://travel-advisor.p.rapidapi.com/restaurants/list-by-latlng?'+latitude+'&'+longitude+'&limit=9&currency=USD&distance=7&open_now=false&lunit=km&lang=en_US', options)
+        fetch('https://travel-advisor.p.rapidapi.com/restaurants/list-by-latlng?latitude='+latitude+'&longitude='+longitude+'&limit=9&currency=USD&distance=7&open_now=false&lunit=km&lang=en_US',options)
         .then(function (response) {
             return response.json();
         })
         .then(data => loadRestaurants(data))
+        .then(displayRestaurantPictures)
 
-       
+
+
     })
 }
 
@@ -73,7 +77,7 @@ function loadRestaurants(data){
     for (let i = 0; i < 9; i++) {
         var displayRestaurant = {
             position: i,
-            photo: data.items[i].photo.images.medium,
+            photo: data[i].photo.images.medium,
             name: data.items[i].name,
             ifChosen: false,
         }
@@ -84,16 +88,31 @@ function loadRestaurants(data){
 
 // displays the current movie. Should fine for the first one but we need to change the variable for which numbered thing in the array we want
 function displayMoviePosters() {
+    while (row1Vanilla.firstChild) {
+        row1Vanilla.removeChild(row1Vanilla.firstChild)
+    }
     console.log(movieInfo)
     var movieDisplay = document.createElement("img")
-    movieDisplay.setAttribute('src', movieInfo[0].image)
+    movieDisplay.setAttribute('src', movieInfo[counter].image)
     movieDisplay.classList.add('posters')
-    movieDisplay.setAttribute('alt', movieInfo[0].fullTitle)
+    movieDisplay.setAttribute('alt', movieInfo[counter].fullTitle)
     row1Vanilla.appendChild(movieDisplay)
     // console.log(data.items[0].image)
     row2Vanilla.innerHTML = '<button data-decision="dislike" onClick="displayMoviePosters()" class="waves-effect waves-light btn" ><i data-decision="dislike"class="material-icons right">thumb_down</i>Dislike</button><button data-decision="like" onClick="displayMoviePosters()" class="waves-effect waves-light btn"><i data-decision="like" class="material-icons right">thumb_up</i>Like</button>'
 }
-
+function displayRestaurantPictures() {
+    while (row1Vanilla.firstChild) {
+        row1Vanilla.removeChild(row1Vanilla.firstChild)
+    }
+    console.log(restaurantInfo)
+    var restaurantDisplay = document.createElement("img")
+    restaurantDisplay.setAttribute('src', restaurantInfo[counter].photo.images.medium)
+    restaurantDisplay.classList.add('posters')
+    restaurantDisplay.setAttribute('alt', restaurantInfo[counter].name)
+    row1Vanilla.appendChild(restaurantDisplay)
+    // console.log(data.items[0].image)
+    row2Vanilla.innerHTML = '<button data-decision="dislike" onClick="displayRestaurantPictures()" class="waves-effect waves-light btn" ><i data-decision="dislike"class="material-icons right">thumb_down</i>Dislike</button><button data-decision="like" onClick="displayRestaurantPictures()" class="waves-effect waves-light btn"><i data-decision="like" class="material-icons right">thumb_up</i>Like</button>'
+}
 
 
 // the initial call for profile 1
@@ -113,10 +132,16 @@ function decisionMadeMovie(event) {
         console.log(counter)
     }
     if (event.target.getAttribute('data-decision') === "dislike") {
-        counter--
+        counter++
         console.log(counter)
     }
     console.log(event.target.getAttribute('data-decision'))
+
+    if(counter < movieInfo.length){
+        displayMoviePosters()
+    }else{
+        foodfetch()
+    }
 }
 
 row2.on('click', decisionMadeMovie)
