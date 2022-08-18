@@ -6,7 +6,7 @@ var btnProfile2 = $("btnProfile2")
 var row1Vanilla = document.getElementById("row1")
 var row2Vanilla = document.getElementById("row2")
 var counter = 0
-var movieInfo
+var movieInfo 
 var foodInfo = []
 
 // removing stuff in the DOM first and second row
@@ -55,8 +55,10 @@ function displayMoviePosters() {
     movieDisplay.setAttribute('alt', movieInfo[0].fullTitle)
     row1Vanilla.appendChild(movieDisplay)
     // console.log(data.items[0].image)
-    row2Vanilla.innerHTML = '<a data-decision="dislike" class="waves-effect waves-light btn"><i data-decision="dislike" class="material-icons right">thumb_down</i>Dislike</a><a data-decision="like" class="waves-effect waves-light btn"><i data-decision="like" class="material-icons right">thumb_up</i>Like</a>'
+    row2Vanilla.innerHTML = '<button data-decision="dislike" onClick="displayMoviePosters()" class="waves-effect waves-light btn" ><i data-decision="dislike"class="material-icons right">thumb_down</i>Dislike</button><button data-decision="like" onClick="displayMoviePosters()" class="waves-effect waves-light btn"><i data-decision="like" class="material-icons right">thumb_up</i>Like</button>'
 }
+
+
 
 // the initial call for profile 1
 function goProfile1() {
@@ -82,3 +84,5 @@ function decisionMadeMovie(event) {
 }
 
 row2.on('click', decisionMadeMovie)
+
+
