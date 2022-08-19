@@ -40,6 +40,8 @@ function initFetches() {
         .then(displayMoviePosters)
 }
 function foodFetch() {
+    // make logic that turns off the event listener for the first decisionMade
+    row2Vanilla.removeEventListener('click', decisionMade)
     counter = 0
     navigator.geolocation.getCurrentPosition((success) => {
 
@@ -85,7 +87,7 @@ function loadRestaurants(data) {
         } else {
             var displayRestaurant = {
                 position: i,
-                photo: data.data[i].photo.images.medium,
+                photo: data.data[i].photo.images.medium.url,
                 name: data.data[i].name,
                 ifChosen: false,
             }
@@ -100,7 +102,7 @@ function displayMoviePosters() {
     while (row1Vanilla.firstChild) {
         row1Vanilla.removeChild(row1Vanilla.firstChild)
     }
-    console.log(movieInfo)
+    // console.log(movieInfo)
     var movieDisplay = document.createElement("img")
     movieDisplay.setAttribute('src', movieInfo[counter].image)
     movieDisplay.classList.add('posters')
@@ -108,11 +110,14 @@ function displayMoviePosters() {
     row1Vanilla.appendChild(movieDisplay)
     // console.log(data.items[0].image)
     counter++
-    if (counter >= movieInfo.length) {
-        row2Vanilla.innerHTML = '<button data-decision="dislike" onClick="foodFetch()" class="waves-effect waves-light btn" ><i data-decision="dislike"class="material-icons right">thumb_down</i>Dislike</button><button data-decision="like" onClick="foodFetch()" class="waves-effect waves-light btn"><i data-decision="like" class="material-icons right">thumb_up</i>Like</button>'
-    } else {
-        row2Vanilla.innerHTML = '<button data-decision="dislike" onClick="displayMoviePosters()" class="waves-effect waves-light btn" ><i data-decision="dislike"class="material-icons right">thumb_down</i>Dislike</button><button data-decision="like" onClick="displayMoviePosters()" class="waves-effect waves-light btn"><i data-decision="like" class="material-icons right">thumb_up</i>Like</button>'
-    }
+    // if (counter >= movieInfo.length) {
+    //     row2Vanilla.innerHTML = '<button data-decision="dislike" class="waves-effect waves-light btn" ><i data-decision="dislike"class="material-icons right">thumb_down</i>Dislike</button><button data-decision="like" class="waves-effect waves-light btn"><i data-decision="like" class="material-icons right">thumb_up</i>Like</button>'
+    // } else {
+    row2Vanilla.innerHTML = '<button data-decision="dislike" class="waves-effect waves-light btn" ><i data-decision="dislike"class="material-icons right">thumb_down</i>Dislike</button><button data-decision="like" class="waves-effect waves-light btn"><i data-decision="like" class="material-icons right">thumb_up</i>Like</button>'
+    // onClick="displayMoviePosters()
+    // onClick="displayMoviePosters()
+    // }
+    // counter++
 
 
 }
@@ -148,7 +153,7 @@ btnProfile1.on('click', goProfile1)
 
 // functionality for the like and dislike buttons
 function decisionMade(event) {
-    console.log(event.target)
+    // console.log(event.target)
     if (event.target.getAttribute('data-decision') === "like") {
         // counter++
         console.log(counter)
@@ -158,6 +163,12 @@ function decisionMade(event) {
         console.log(counter)
     }
     console.log(event.target.getAttribute('data-decision'))
+    // counter++
+    if (counter < movieInfo.length) {
+        displayMoviePosters()
+    } else {
+        foodFetch();
+    }
 
     // if(counter < movieInfo.length){
     //     displayMoviePosters()
@@ -166,6 +177,10 @@ function decisionMade(event) {
     // }
 }
 
-row2.on('click', decisionMade)
+row2Vanilla.addEventListener('click', decisionMade)
 
+// make two onclick functions in the javascript, one for decisionMadeMovie and one for decisionMadeFood, based off of the linear nature of the logic
+// initFetches -> movie fetches -> movie into array -> display the first image -> onclick seperate functionality of decisionMadeMovie to display the next image until the array is done
+// once the array is done -> move onto foodFetch -> food info into array -> onclick functionality of seperate decisionMadeFood
 
+// splice the array so that we can just use the modified ones for profile 2
