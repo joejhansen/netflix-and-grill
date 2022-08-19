@@ -6,7 +6,7 @@ var btnProfile2 = $("btnProfile2")
 var row1Vanilla = document.getElementById("row1")
 var row2Vanilla = document.getElementById("row2")
 var counter = 0
-var movieInfo 
+var movieInfo
 var foodInfo = []
 
 const options = {
@@ -39,18 +39,18 @@ function initFetches() {
         // has to be done strictly after the data has loaded or else we get an error
         .then(displayMoviePosters)
 }
-function foodfetch(){
-    counter=0
-    navigator.geolocation.getCurrentPosition((success) =>{
+function foodFetch() {
+    counter = 0
+    navigator.geolocation.getCurrentPosition((success) => {
 
 
-        let {latitude,longitude} = success.coords;
-        fetch('https://travel-advisor.p.rapidapi.com/restaurants/list-by-latlng?latitude='+latitude+'&longitude='+longitude+'&limit=9&currency=USD&distance=7&open_now=false&lunit=km&lang=en_US',options)
-        .then(function (response) {
-            return response.json();
-        })
-        .then(data => loadRestaurants(data))
-        .then(displayRestaurantPictures)
+        let { latitude, longitude } = success.coords;
+        fetch('https://travel-advisor.p.rapidapi.com/restaurants/list-by-latlng?latitude=' + latitude + '&longitude=' + longitude + '&limit=9&currency=USD&distance=7&open_now=false&lunit=km&lang=en_US', options)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(data => loadRestaurants(data))
+            .then(displayRestaurantPictures)
 
 
 
@@ -71,18 +71,27 @@ function loadMovies(data) {
         movieInfo.push(thisMovie)
     }
 }
-function loadRestaurants(data){
+function loadRestaurants(data) {
     console.log(data)
     restaurantInfo = []
     for (let i = 0; i < 9; i++) {
-        var displayRestaurant = {
-            position: i,
-            photo: data[i].photo.images.medium,
-            name: data.items[i].name,
-            ifChosen: false,
+        if (data.data[i].photo === undefined) {
+            var displayRestaurant = {
+                position: i,
+                photo: "https://placehold.jp/343x508.png",
+                name: data.data[i].name,
+                ifChosen: false,
+            }
+        } else {
+            var displayRestaurant = {
+                position: i,
+                photo: data.data[i].photo.images.medium,
+                name: data.data[i].name,
+                ifChosen: false,
+            }
         }
         restaurantInfo.push(displayRestaurant)
-    
+
     }
 }
 
@@ -98,20 +107,33 @@ function displayMoviePosters() {
     movieDisplay.setAttribute('alt', movieInfo[counter].fullTitle)
     row1Vanilla.appendChild(movieDisplay)
     // console.log(data.items[0].image)
-    row2Vanilla.innerHTML = '<button data-decision="dislike" onClick="displayMoviePosters()" class="waves-effect waves-light btn" ><i data-decision="dislike"class="material-icons right">thumb_down</i>Dislike</button><button data-decision="like" onClick="displayMoviePosters()" class="waves-effect waves-light btn"><i data-decision="like" class="material-icons right">thumb_up</i>Like</button>'
+    counter++
+    if (counter >= movieInfo.length) {
+        row2Vanilla.innerHTML = '<button data-decision="dislike" onClick="foodFetch()" class="waves-effect waves-light btn" ><i data-decision="dislike"class="material-icons right">thumb_down</i>Dislike</button><button data-decision="like" onClick="foodFetch()" class="waves-effect waves-light btn"><i data-decision="like" class="material-icons right">thumb_up</i>Like</button>'
+    } else {
+        row2Vanilla.innerHTML = '<button data-decision="dislike" onClick="displayMoviePosters()" class="waves-effect waves-light btn" ><i data-decision="dislike"class="material-icons right">thumb_down</i>Dislike</button><button data-decision="like" onClick="displayMoviePosters()" class="waves-effect waves-light btn"><i data-decision="like" class="material-icons right">thumb_up</i>Like</button>'
+    }
+
+
 }
+
 function displayRestaurantPictures() {
     while (row1Vanilla.firstChild) {
         row1Vanilla.removeChild(row1Vanilla.firstChild)
     }
     console.log(restaurantInfo)
     var restaurantDisplay = document.createElement("img")
-    restaurantDisplay.setAttribute('src', restaurantInfo[counter].photo.images.medium)
+    if (restaurantInfo[counter].photo) {
+        restaurantDisplay.setAttribute('src', restaurantInfo[counter].photo)
+    } else {
+        restaurantDisplay.setAttribute('src', "https://placehold.jp/343x508.png")
+    }
     restaurantDisplay.classList.add('posters')
     restaurantDisplay.setAttribute('alt', restaurantInfo[counter].name)
     row1Vanilla.appendChild(restaurantDisplay)
     // console.log(data.items[0].image)
     row2Vanilla.innerHTML = '<button data-decision="dislike" onClick="displayRestaurantPictures()" class="waves-effect waves-light btn" ><i data-decision="dislike"class="material-icons right">thumb_down</i>Dislike</button><button data-decision="like" onClick="displayRestaurantPictures()" class="waves-effect waves-light btn"><i data-decision="like" class="material-icons right">thumb_up</i>Like</button>'
+    counter++
 }
 
 
@@ -125,25 +147,25 @@ function goProfile1() {
 btnProfile1.on('click', goProfile1)
 
 // functionality for the like and dislike buttons
-function decisionMadeMovie(event) {
+function decisionMade(event) {
     console.log(event.target)
     if (event.target.getAttribute('data-decision') === "like") {
-        counter++
+        // counter++
         console.log(counter)
     }
     if (event.target.getAttribute('data-decision') === "dislike") {
-        counter++
+        // counter++
         console.log(counter)
     }
     console.log(event.target.getAttribute('data-decision'))
 
-    if(counter < movieInfo.length){
-        displayMoviePosters()
-    }else{
-        foodfetch()
-    }
+    // if(counter < movieInfo.length){
+    //     displayMoviePosters()
+    // }else{
+    //     foodfetch()
+    // }
 }
 
-row2.on('click', decisionMadeMovie)
+row2.on('click', decisionMade)
 
 
