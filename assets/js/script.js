@@ -8,6 +8,32 @@ var row2Vanilla = document.getElementById("row2")
 var counter = 0
 var movieInfo
 var foodInfo = []
+var cuisine = [
+    {
+        category: "American",
+        image: "https://placehold.jp/343x508.png",
+        isChosen: false,
+    },
+    {
+        category: "Italian",
+        image: "https://placehold.jp/343x508.png",
+        isChosen: false,
+    },
+    {
+        category: "Sushi",
+        image: "https://placehold.jp/343x508.png",
+        isChosen: false,
+    },
+    {
+        category: "Chinese",
+        image: "https://placehold.jp/343x508.png",
+        isChosen: false,
+    },
+    {
+        category: "Mexican",
+        image: "https://placehold.jp/343x508.png",
+        isChosen: false,
+    }]
 
 const options = {
     method: 'GET',
@@ -41,7 +67,7 @@ function initFetches() {
 }
 function foodFetch() {
     // make logic that turns off the event listener for the first decisionMade
-    row2Vanilla.removeEventListener('click', decisionMade)
+    row2Vanilla.removeEventListener('click', decisionMadeMovie)
     counter = 0
     navigator.geolocation.getCurrentPosition((success) => {
 
@@ -100,7 +126,6 @@ function displayMoviePosters() {
     while (row1Vanilla.firstChild) {
         row1Vanilla.removeChild(row1Vanilla.firstChild)
     }
-    // console.log(movieInfo)
     var movieDisplay = document.createElement("img")
     movieDisplay.setAttribute('src', movieInfo[counter].image)
     movieDisplay.classList.add('posters')
@@ -109,35 +134,41 @@ function displayMoviePosters() {
     var movieTitle = document.createElement("h2")
     movieTitle.textContent = movieInfo[counter].title
     row1Vanilla.appendChild(movieTitle)
-    // console.log(data.items[0].image)
-    counter++
-
     row2Vanilla.innerHTML = '<button data-decision="dislike" class="waves-effect waves-light btn" ><i data-decision="dislike"class="material-icons right">thumb_down</i>Dislike</button><button data-decision="like" class="waves-effect waves-light btn"><i data-decision="like" class="material-icons right">thumb_up</i>Like</button>'
-    
-    var displayTittle = document.createElement('h2')
+}
 
+function decisionMadeFood(event) {
+    if (event.target.getAttribute('data-decision') === "like") {
+        counter++
+    }
+    if (event.target.getAttribute('data-decision') === "dislike") {
+        cuisine.splice(counter, 1)
+    }
+    console.log(event.target.getAttribute('data-decision'))
+    if (counter < cuisine.length) {
+        displayRestaurantPictures()
+    } else{
+        counter=0
+        initProfile2();
+    }
 }
 
 function displayRestaurantPictures() {
+    row2Vanilla.removeEventListener('click', decisionMadeMovie)
+    row2Vanilla.addEventListener('click', decisionMadeFood)
     while (row1Vanilla.firstChild) {
         row1Vanilla.removeChild(row1Vanilla.firstChild)
     }
-    console.log(restaurantInfo)
     var restaurantDisplay = document.createElement("img")
-    if (restaurantInfo[counter].photo) {
-        restaurantDisplay.setAttribute('src', restaurantInfo[counter].photo)
-    } else {
-        restaurantDisplay.setAttribute('src', "https://placehold.jp/343x508.png")
-    }
+    restaurantDisplay.setAttribute('src', cuisine[counter].image)
     restaurantDisplay.classList.add('posters')
-    restaurantDisplay.setAttribute('alt', restaurantInfo[counter].name)
+    restaurantDisplay.setAttribute('alt', cuisine[counter].category)
     row1Vanilla.appendChild(restaurantDisplay)
     var restaurantTitle = document.createElement("h2")
-    restaurantTitle.textContent = restaurantInfo[counter].name
+    restaurantTitle.textContent = cuisine[counter].category
     row1Vanilla.appendChild(restaurantTitle)
-    // console.log(data.items[0].image)
-    row2Vanilla.innerHTML = '<button data-decision="dislike" onClick="displayRestaurantPictures()" class="waves-effect waves-light btn" ><i data-decision="dislike"class="material-icons right">thumb_down</i>Dislike</button><button data-decision="like" onClick="displayRestaurantPictures()" class="waves-effect waves-light btn"><i data-decision="like" class="material-icons right">thumb_up</i>Like</button>'
-    counter++
+    row2Vanilla.innerHTML = '<button data-decision="dislike" class="waves-effect waves-light btn" ><i data-decision="dislike"class="material-icons right">thumb_down</i>Dislike</button><button data-decision="like" class="waves-effect waves-light btn"><i data-decision="like" class="material-icons right">thumb_up</i>Like</button>'
+    // counter++
 }
 
 
@@ -151,35 +182,57 @@ function goProfile1() {
 btnProfile1.on('click', goProfile1)
 
 // functionality for the like and dislike buttons
-function decisionMade(event) {
-    // console.log(event.target)
+function decisionMadeMovie(event){ 
     if (event.target.getAttribute('data-decision') === "like") {
-        // counter++
-        console.log(counter)
-        console.log(movieInfo)
+        counter++
     }
     if (event.target.getAttribute('data-decision') === "dislike") {
-        movieInfo.splice(counter,1)
-        // counter++
-        console.log(counter)
-        console.log(movieInfo)
+        movieInfo.splice(counter, 1)
     }
     console.log(event.target.getAttribute('data-decision'))
-    // counter++
     if (counter < movieInfo.length) {
         displayMoviePosters()
     } else {
-        foodFetch();
+        counter=0
+        displayRestaurantPictures();
     }
-
-    // if(counter < movieInfo.length){
-    //     displayMoviePosters()
-    // }else{
-    //     foodfetch()
-    // }
 }
 
-row2Vanilla.addEventListener('click', decisionMade)
+row2Vanilla.addEventListener('click', decisionMadeMovie)
+
+function decisionMadeFood2(){
+    console.log("youre on the food part now")
+}
+
+function movieDecided(){
+    console.log("You picked a movie you both liked")
+    const pickedMovie = movieInfo[counter]
+    row2Vanilla.removeEventListener('click',decisionMadeMovie2)
+    row2Vanilla.addEventListener('click', decisionMadeFood2)
+    displayRestaurantPictures()
+}
+
+function decisionMadeMovie2(event){
+    if (event.target.getAttribute('data-decision') === "like") {
+        movieDecided();
+    }
+    if (event.target.getAttribute('data-decision') === "dislike") {
+        movieInfo.splice(counter, 1)
+    }
+    if (counter <movieInfo.length){
+    displayMoviePosters()
+    } else{
+        counter =0
+        console.log("you lose :(")
+    }
+}
+
+function initProfile2(){
+    console.log("profile 2")
+    row2Vanilla.removeEventListener('click',decisionMadeFood)
+    row2Vanilla.addEventListener('click',decisionMadeMovie2)
+    displayMoviePosters()
+}
 
 // make two onclick functions in the javascript, one for decisionMadeMovie and one for decisionMadeFood, based off of the linear nature of the logic
 // initFetches -> movie fetches -> movie into array -> display the first image -> onclick seperate functionality of decisionMadeMovie to display the next image until the array is done
