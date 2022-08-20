@@ -54,8 +54,6 @@ function foodFetch() {
             .then(data => loadRestaurants(data))
             .then(displayRestaurantPictures)
 
-
-
     })
 }
 
@@ -106,9 +104,12 @@ function displayMoviePosters() {
     var movieDisplay = document.createElement("img")
     movieDisplay.setAttribute('src', movieInfo[counter].image)
     movieDisplay.classList.add('posters')
-    movieDisplay.setAttribute('alt', movieInfo[counter].fullTitle)
+    movieDisplay.setAttribute('alt', movieInfo[counter].title)
     row1Vanilla.appendChild(movieDisplay)
-   
+    var movieTitle = document.createElement("h2")
+    movieTitle.textContent = movieInfo[counter].title
+    row1Vanilla.appendChild(movieTitle)
+    // console.log(data.items[0].image)
     counter++
 
     row2Vanilla.innerHTML = '<button data-decision="dislike" class="waves-effect waves-light btn" ><i data-decision="dislike"class="material-icons right">thumb_down</i>Dislike</button><button data-decision="like" class="waves-effect waves-light btn"><i data-decision="like" class="material-icons right">thumb_up</i>Like</button>'
@@ -131,6 +132,9 @@ function displayRestaurantPictures() {
     restaurantDisplay.classList.add('posters')
     restaurantDisplay.setAttribute('alt', restaurantInfo[counter].name)
     row1Vanilla.appendChild(restaurantDisplay)
+    var restaurantTitle = document.createElement("h2")
+    restaurantTitle.textContent = restaurantInfo[counter].name
+    row1Vanilla.appendChild(restaurantTitle)
     // console.log(data.items[0].image)
     row2Vanilla.innerHTML = '<button data-decision="dislike" onClick="displayRestaurantPictures()" class="waves-effect waves-light btn" ><i data-decision="dislike"class="material-icons right">thumb_down</i>Dislike</button><button data-decision="like" onClick="displayRestaurantPictures()" class="waves-effect waves-light btn"><i data-decision="like" class="material-icons right">thumb_up</i>Like</button>'
     counter++
