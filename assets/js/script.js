@@ -108,17 +108,12 @@ function displayMoviePosters() {
     movieDisplay.classList.add('posters')
     movieDisplay.setAttribute('alt', movieInfo[counter].fullTitle)
     row1Vanilla.appendChild(movieDisplay)
-    // console.log(data.items[0].image)
+   
     counter++
-    // if (counter >= movieInfo.length) {
-    //     row2Vanilla.innerHTML = '<button data-decision="dislike" class="waves-effect waves-light btn" ><i data-decision="dislike"class="material-icons right">thumb_down</i>Dislike</button><button data-decision="like" class="waves-effect waves-light btn"><i data-decision="like" class="material-icons right">thumb_up</i>Like</button>'
-    // } else {
-    row2Vanilla.innerHTML = '<button data-decision="dislike" class="waves-effect waves-light btn" ><i data-decision="dislike"class="material-icons right">thumb_down</i>Dislike</button><button data-decision="like" class="waves-effect waves-light btn"><i data-decision="like" class="material-icons right">thumb_up</i>Like</button>'
-    // onClick="displayMoviePosters()
-    // onClick="displayMoviePosters()
-    // }
-    // counter++
 
+    row2Vanilla.innerHTML = '<button data-decision="dislike" class="waves-effect waves-light btn" ><i data-decision="dislike"class="material-icons right">thumb_down</i>Dislike</button><button data-decision="like" class="waves-effect waves-light btn"><i data-decision="like" class="material-icons right">thumb_up</i>Like</button>'
+    
+    var displayTittle = document.createElement('h2')
 
 }
 
@@ -157,10 +152,13 @@ function decisionMade(event) {
     if (event.target.getAttribute('data-decision') === "like") {
         // counter++
         console.log(counter)
+        console.log(movieInfo)
     }
     if (event.target.getAttribute('data-decision') === "dislike") {
+        movieInfo.splice(counter,1)
         // counter++
         console.log(counter)
+        console.log(movieInfo)
     }
     console.log(event.target.getAttribute('data-decision'))
     // counter++
