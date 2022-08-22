@@ -134,7 +134,7 @@ function displayMoviePosters() {
     var movieTitle = document.createElement("h2")
     movieTitle.textContent = movieInfo[counter].title
     row1Vanilla.appendChild(movieTitle)
-    row2Vanilla.innerHTML = '<button data-decision="dislike" class="waves-effect waves-light btn" ><i data-decision="dislike"class="material-icons right">thumb_down</i>Dislike</button><button data-decision="like" class="waves-effect waves-light btn"><i data-decision="like" class="material-icons right">thumb_up</i>Like</button>'
+    row2Vanilla.innerHTML = '<button data-decision="dislike" class="waves-effect waves-light orange darken-2 btn" ><i data-decision="dislike"class="material-icons right">thumb_down</i>Dislike</button><button data-decision="like" class="waves-effect waves-light orange darken-2 btn"><i data-decision="like" class="material-icons right">thumb_up</i>Like</button>'
 }
 
 function decisionMadeFood(event) {
@@ -167,7 +167,7 @@ function displayRestaurantPictures() {
     var restaurantTitle = document.createElement("h2")
     restaurantTitle.textContent = cuisine[counter].category
     row1Vanilla.appendChild(restaurantTitle)
-    row2Vanilla.innerHTML = '<button data-decision="dislike" class="waves-effect waves-light btn" ><i data-decision="dislike"class="material-icons right">thumb_down</i>Dislike</button><button data-decision="like" class="waves-effect waves-light btn"><i data-decision="like" class="material-icons right">thumb_up</i>Like</button>'
+    row2Vanilla.innerHTML = '<button data-decision="dislike" class="waves-effect waves-light orange darken-2 btn" ><i data-decision="dislike"class="material-icons right">thumb_down</i>Dislike</button><button data-decision="like" class="waves-effect waves-light orange darken-2 btn"><i data-decision="like" class="material-icons right">thumb_up</i>Like</button>'
     // counter++
 }
 
