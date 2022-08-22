@@ -25,3 +25,16 @@
     margin: 5px;
     margin-top: 5px;
    }
+
+   .background {
+    background-color: rgb(144, 46, 46);
+   }
+
+   h2 {
+    background-color: black;
+    color: whitesmoke;
+    flex-wrap: wrap;
+    font-family: 'Montserrat', sans-serif;
+    text-shadow: grey 0 4px;
+    font-size: 35px;
+   }

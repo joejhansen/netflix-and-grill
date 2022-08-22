@@ -10,11 +10,7 @@ The code used the jquery, materialize and two APIs; IMDb and Travel Advisor. The
 
 # User Story
 
-AS a User who is troubled with the complications of deciding what movie to watch and where to eat with my significant other or friend.
 
-I WANT to be able to easily select a movie from the most popular and current films in theaters right now and pick a restaurant from my local area based upon cuisine selections.
-
-SO THAT I can simplify my life's most difficult decisions and not end relationships and/or friendships.
 
 ## Acceptance Criteria
 GIVEN I am using a application to select movies and restaurants
