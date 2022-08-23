@@ -9,8 +9,11 @@ We have created a simple date night selector application that allows two users t
 The code used the jquery, materialize and two APIs; IMDb and Travel Advisor. The IMDb API is used to generate an array of the top movies in theaters and we have chosen to reduce the array to the top 10 for brevity. The Travel advisor API is used to populate a restaurant based upon the cuisine types the users have agreed to. 
 
 # User Story
+AS a User who is troubled with the complications of deciding what movie to watch and where to eat with my significant other or friend.
 
+I WANT to be able to easily select a movie from the most popular and theatrical releases and pick a restaurant from my local area based upon cuisine preferences.
 
+SO THAT I can simplify my life's most difficult decisions and not end relationships and/or friendships.
 
 ## Acceptance Criteria
 GIVEN I am using a application to select movies and restaurants
@@ -53,8 +56,8 @@ Travel Advisor API
 
 ## Snapshot
 
-![The webpage includes a display for both movie and restaurants, buttons allow user to click and select their "like" and "dislike" of movies and cuisine types.](./assets/images/.jpg).
+![The webpage includes a display for both movie and restaurants, buttons allow user to click and select their "like" and "dislike" of movies and cuisine types.](./assets/images/Screenshot.jpg).
 
 ## Link
 
-The link of the webpage is: https:///
+The link of the webpage is: https://joejhansen.github.io/netflix-and-grill/
