@@ -12,27 +12,27 @@ var foodInfo = []
 var cuisine = [
     {
         category: "American",
-        image: "https://placehold.jp/343x508.png",
+        image: "./assets/images/American.jpg",
         isChosen: false,
     },
     {
         category: "Italian",
-        image: "https://placehold.jp/343x508.png",
+        image: "./assets/images/Italian.jpg",
         isChosen: false,
     },
     {
         category: "Sushi",
-        image: "https://placehold.jp/343x508.png",
+        image: "./assets/images/Sushi.jpg",
         isChosen: false,
     },
     {
         category: "Chinese",
-        image: "https://placehold.jp/343x508.png",
+        image: "./assets/images/Chinese.jpg",
         isChosen: false,
     },
     {
         category: "Mexican",
-        image: "https://placehold.jp/343x508.png",
+        image: "./assets/images/Mexican.jpg",
         isChosen: false,
     }]
 
