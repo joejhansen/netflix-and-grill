@@ -2,7 +2,8 @@
 var row1Vanilla = $("#row1")
 var row2 = $("#row2")
 var btnProfile1 = $("#btnProfile1")
-var btnProfile2 = $("btnProfile2")
+var btnReset = $("#Reset")
+// var btnProfile2 = $("btnProfile2")
 var row1Vanilla = document.getElementById("row1")
 var row2Vanilla = document.getElementById("row2")
 var counter = 0
@@ -180,6 +181,9 @@ function goProfile1() {
 
 // click event listener
 btnProfile1.on('click', goProfile1)
+
+// click to Reset
+btnReset.on('click', goProfile1)
 
 // functionality for the like and dislike buttons
 function decisionMadeMovie(event){ 
