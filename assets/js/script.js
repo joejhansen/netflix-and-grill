@@ -61,7 +61,7 @@ function removeSplash() {
 
 // fetching APIS [DO MOVIES THEN FOOD]
 function initFetches() {
-    fetch("https://imdb-api.com/en/API/MostPopularMovies/k_8wpck7yy")
+    fetch("https://imdb-api.com/en/API/MostPopularMovies/k_4qxspps7")
         .then(function (response) {
             return response.json();
         })
@@ -84,7 +84,7 @@ function foodFetch() {
 
 
         let { latitude, longitude } = success.coords;
-        fetch('https://travel-advisor.p.rapidapi.com/restaurants/list-by-latlng?latitude=' + latitude + '&longitude=' + longitude + '&limit=9&currency=USD&distance=7&open_now=false&lunit=mi&lang=en_US', options)
+        fetch('https://travel-advisor.p.rapidapi.com/restaurants/list-by-latlng?latitude=' + latitude + '&longitude=' + longitude + '&limit=9&currency=USD&distance=10&open_now=false&lunit=mi&lang=en_US', options)
             .then(function (response) {
                 return response.json();
             })
@@ -109,8 +109,27 @@ function loadMovies(data) {
     }
 }
 function loadRestaurants(data) {
+    var finalPickedFood = JSON.parse(localStorage.getItem('picked-food'))
     console.log(data)
     restaurantInfo = []
+    for (i = 0; i < data.data.length; i++) {
+        if (data.data[i].cuisine) {
+            for (z = 0; z < data.data[i].cuisine.length; z++) {
+                if (data.data[i].cuisine[z]) {
+                    // console.log(data.data[i].cuisine[z].name)
+                    if (data.data[i].cuisine[z].name === finalPickedFood.category){
+                        console.log(finalPickedFood.category)
+                        console.log(data.data[i].name)
+                        return
+                    }
+                } else {
+                    console.log("nothing here, chief")
+                }
+            }
+        } else{
+            console.log("nothing here, chief")
+        }
+    }
     // for (let i = 0; i < 9; i++) {
     //     if (data.data[i].photo === undefined) {
     //         var displayRestaurant = {
