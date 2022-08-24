@@ -35,3 +35,8 @@
     text-shadow: grey 0 4px;
     font-size: 35px;
    }
+
+   .rest-image {
+    height: 100%;
+    width: 100%;
+   }

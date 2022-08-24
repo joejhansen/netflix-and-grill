@@ -89,7 +89,7 @@ function foodFetch() {
                 return response.json();
             })
             .then(data => loadRestaurants(data))
-            // .then(displayRestaurantPictures)
+        // .then(displayRestaurantPictures)
 
     })
 }
@@ -217,10 +217,10 @@ row2Vanilla.addEventListener('click', decisionMadeMovie)
 
 function finalDecision() {
     row2Vanilla.removeEventListener('click', decisionMadeFood2)
-    while (row2Vanilla.firstChild){
+    while (row2Vanilla.firstChild) {
         row2Vanilla.removeChild(row2Vanilla.firstChild)
     }
-    while (row1Vanilla.firstChild){
+    while (row1Vanilla.firstChild) {
         row1Vanilla.removeChild(row1Vanilla.firstChild)
     }
     console.log("display the two decisions here")
@@ -228,11 +228,11 @@ function finalDecision() {
     var finalPickedMovie = JSON.parse(localStorage.getItem('picked-movie'))
     foodFetch();
     var finalMoviePoster = document.createElement('img')
-    finalMoviePoster.setAttribute('src',finalPickedMovie.image)
+    finalMoviePoster.setAttribute('src', finalPickedMovie.image)
     finalMoviePoster.classList.add('posters')
     finalMoviePoster.classList.add('col')
     var finalFoodPoster = document.createElement('img')
-    finalFoodPoster.setAttribute('src',finalPickedFood.image)
+    finalFoodPoster.setAttribute('src', finalPickedFood.image)
     finalFoodPoster.classList.add('posters')
     finalFoodPoster.classList.add('col')
     row1Vanilla.appendChild(finalFoodPoster)
@@ -320,3 +320,30 @@ initFetches()
 // once the array is done -> move onto foodFetch -> food info into array -> onclick functionality of seperate decisionMadeFood
 
 // splice the array so that we can just use the modified ones for profile 2
+
+var instance = M.Carousel.init({
+    fullWidth: true,
+    indicators: true
+});
+
+// Or with jQuery
+
+// Carousel slider and timer
+// $('.carousel.carousel-slider').carousel({
+//     fullWidth: true,
+//     indicators: true,
+// });
+
+$(document).ready(function () {
+
+    $('.carousel.carousel-slider').carousel();
+
+    setInterval(function () {
+
+        $('.carousel.carousel-slider').carousel('next');
+
+    }, 3500);
+
+
+
+});
