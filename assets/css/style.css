@@ -1,15 +1,14 @@
 
+
 .posters{
     width: 343px;
     height: 508px;
-    border: solid black 2px;  
-    box-shadow: 5px 5px gray; 
+    border: solid #b71c1c 10px;  
+    box-shadow: 5px 5px silver; 
+    
 }
 
-#header{
-    background-color: #b71c1c;
-    outline: 4px solid #424242;
-}
+
 .title {
     background-color: #ef6c00;
     color: #ffd54f;
@@ -24,7 +23,7 @@
    }
 
    .background {
-    background-color: rgb(144, 46, 46);
+    background-image: url("https://wallpaperaccess.com/full/752715.jpg");
    }
 
    h2 {
@@ -35,8 +34,7 @@
     text-shadow: grey 0 4px;
     font-size: 35px;
    }
-
-   .rest-image {
-    height: 100%;
-    width: 100%;
-   }
+ .row1{
+    background-image: url('assets/images/red-carpet.jpg');
+ }
+   
