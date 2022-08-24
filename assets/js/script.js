@@ -8,6 +8,7 @@ var moviePoster = document.getElementById("moviePoster")
 var foodPoster = document.getElementById("foodPoster")
 var row1Vanilla = document.getElementById("row1")
 var row2Vanilla = document.getElementById("row2")
+
 var slideShowCounter = 0
 var movieSlideCounter = 0
 var counter = 0
@@ -211,7 +212,7 @@ function goProfile1() {
 btnProfile1.on('click', goProfile1)
 
 // click to Reset
-btnReset.on('click', goProfile1)
+// btnReset.on('click', goProfile1)
 
 // functionality for the like and dislike buttons
 function decisionMadeMovie(event) {
