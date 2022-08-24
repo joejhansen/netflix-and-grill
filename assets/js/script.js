@@ -1,14 +1,14 @@
 // declaring variables
-// var row1Vanilla = $("#row1")
+// jquery
 var row2 = $("#row2")
 var btnProfile1 = $("#btnProfile1")
 var btnReset = $("#Reset")
-// var btnProfile2 = $("btnProfile2")
+// vanilla
 var moviePoster = document.getElementById("moviePoster")
 var foodPoster = document.getElementById("foodPoster")
 var row1Vanilla = document.getElementById("row1")
 var row2Vanilla = document.getElementById("row2")
-
+// numbers and objects
 var slideShowCounter = 0
 var movieSlideCounter = 0
 var counter = 0
@@ -36,11 +36,12 @@ var cuisine = [
         isChosen: false,
     },
     {
-        category: "Mexican",
+        category: "Latin",
         image: "./assets/images/Mexican.jpg",
         isChosen: false,
     }]
 
+// options for the foodAPI fetch
 const options = {
     method: 'GET',
     headers: {
@@ -60,7 +61,7 @@ function removeSplash() {
     }
 }
 
-// fetching APIS [DO MOVIES THEN FOOD]
+// fetching IMDB API
 function initFetches() {
     fetch("https://imdb-api.com/en/API/MostPopularMovies/k_4qxspps7")
         .then(function (response) {
@@ -68,24 +69,18 @@ function initFetches() {
         })
         // use this format to load data in from the food api through a function
         .then(data => loadMovies(data))
-    // has to be done strictly after the data has loaded or else we get an error
-    // .then(displayMoviePosters)
-    // .then(function () {
-    // const slideshow = setInterval(functionSlideshow, 1000)
-    // })
 }
 
 
-
+// fetching the food API
 function foodFetch() {
-    // make logic that turns off the event listener for the first decisionMade
     row2Vanilla.removeEventListener('click', decisionMadeMovie)
     counter = 0
     navigator.geolocation.getCurrentPosition((success) => {
 
 
         let { latitude, longitude } = success.coords;
-        fetch('https://travel-advisor.p.rapidapi.com/restaurants/list-by-latlng?latitude=' + latitude + '&longitude=' + longitude + '&limit=9&currency=USD&distance=10&open_now=false&lunit=mi&lang=en_US', options)
+        fetch('https://travel-advisor.p.rapidapi.com/restaurants/list-by-latlng?latitude=' + latitude + '&longitude=' + longitude + '&limit=20&currency=USD&distance=10&open_now=false&lunit=mi&lang=en_US', options)
             .then(function (response) {
                 return response.json();
             })
@@ -108,48 +103,32 @@ function loadMovies(data) {
         }
         movieInfo.push(thisMovie)
     }
+    $("#btnProfile1").css("display", "inline")
 }
+
+// loads restaurants from the food API fetch
 function loadRestaurants(data) {
     var finalPickedFood = JSON.parse(localStorage.getItem('picked-food'))
+    var finalPickedMovie = JSON.parse(localStorage.getItem('picked-movie'))
     console.log(data)
     restaurantInfo = []
+    // searches for the category. we had to do this because the API doesn't support search queries beyond latitude and longitude for local options.
     for (i = 0; i < data.data.length; i++) {
         if (data.data[i].cuisine) {
             for (z = 0; z < data.data[i].cuisine.length; z++) {
                 if (data.data[i].cuisine[z]) {
-                    // console.log(data.data[i].cuisine[z].name)
-                    if (data.data[i].cuisine[z].name === finalPickedFood.category){
+                    if (data.data[i].cuisine[z].name === finalPickedFood.category) {
                         console.log(finalPickedFood.category)
                         console.log(data.data[i].name)
+                        row2Vanilla.innerHTML = "<h2>Your nearby " + finalPickedFood.category + " restaurant: " + data.data[i].name + "</h2><h2>Your movie: " + finalPickedMovie.title + "</h2>"
                         return
                     }
                 } else {
-                    console.log("nothing here, chief")
+                    row2Vanilla.innerHTML = "<h2>No nearby " + finalPickedFood.category + " restaurant available!</h2><h2> But you can still watch " + finalPickedMovie.title + "</h2>"
                 }
             }
-        } else{
-            console.log("nothing here, chief")
         }
     }
-    // for (let i = 0; i < 9; i++) {
-    //     if (data.data[i].photo === undefined) {
-    //         var displayRestaurant = {
-    //             position: i,
-    //             photo: "https://placehold.jp/343x508.png",
-    //             name: data.data[i].name,
-    //             ifChosen: false,
-    //         }
-    //     } else {
-    //         var displayRestaurant = {
-    //             position: i,
-    //             photo: data.data[i].photo.images.medium.url,
-    //             name: data.data[i].name,
-    //             ifChosen: false,
-    //         }
-    //     }
-    //     restaurantInfo.push(displayRestaurant)
-
-    // }
 }
 
 // displays the current movie. Should fine for the first one but we need to change the variable for which numbered thing in the array we want
@@ -168,6 +147,7 @@ function displayMoviePosters() {
     row2Vanilla.innerHTML = '<button data-decision="dislike" class="waves-effect waves-light orange darken-2 btn" ><i data-decision="dislike"class="material-icons right">thumb_down</i>Dislike</button><button data-decision="like" class="waves-effect waves-light orange darken-2 btn"><i data-decision="like" class="material-icons right">thumb_up</i>Like</button>'
 }
 
+// we did this 4 times... couldn't think of a way otherwise 1/4
 function decisionMadeFood(event) {
     if (event.target.getAttribute('data-decision') === "like") {
         counter++
@@ -211,10 +191,7 @@ function goProfile1() {
 // click event listener
 btnProfile1.on('click', goProfile1)
 
-// click to Reset
-// btnReset.on('click', goProfile1)
-
-// functionality for the like and dislike buttons
+// see line 154 2/4
 function decisionMadeMovie(event) {
     if (event.target.getAttribute('data-decision') === "like") {
         counter++
@@ -235,6 +212,7 @@ function decisionMadeMovie(event) {
 
 row2Vanilla.addEventListener('click', decisionMadeMovie)
 
+// once everything is done, we take away the buttons and put in the pictures for the movie and food category
 function finalDecision() {
     row2Vanilla.removeEventListener('click', decisionMadeFood2)
     while (row2Vanilla.firstChild) {
@@ -246,19 +224,18 @@ function finalDecision() {
     console.log("display the two decisions here")
     var finalPickedFood = JSON.parse(localStorage.getItem('picked-food'))
     var finalPickedMovie = JSON.parse(localStorage.getItem('picked-movie'))
+    // also, fetch the food API
     foodFetch();
     var finalMoviePoster = document.createElement('img')
     finalMoviePoster.setAttribute('src', finalPickedMovie.image)
     finalMoviePoster.classList.add('posters')
-    finalMoviePoster.classList.add('col')
     var finalFoodPoster = document.createElement('img')
     finalFoodPoster.setAttribute('src', finalPickedFood.image)
     finalFoodPoster.classList.add('posters')
-    finalFoodPoster.classList.add('col')
     row1Vanilla.appendChild(finalFoodPoster)
     row1Vanilla.appendChild(finalMoviePoster)
 }
-
+// see line 154 3/4
 function decisionMadeFood2(event) {
     console.log("youre on the food part now")
     if (event.target.getAttribute('data-decision') === "like") {
@@ -273,6 +250,7 @@ function decisionMadeFood2(event) {
     }
 }
 
+// resets the global counter
 function movieDecided() {
     console.log("You picked a movie you both liked")
     counter = 0
@@ -282,6 +260,7 @@ function movieDecided() {
 
 }
 
+// see line 154 4/4
 function decisionMadeMovie2(event) {
     if (event.target.getAttribute('data-decision') === "like") {
         console.log("You picked a movie you both liked")
@@ -309,50 +288,15 @@ function initProfile2() {
     displayMoviePosters()
 }
 
-function movieSlideshow() {
-    var movieSlideCounter = 0
-    moviePoster.setAttribute('src', movieInfor[movieSlideCounter].image)
-    movieSlideCounter++
-    i
-}
-
-function functionSlideshow() {
-    foodPoster.setAttribute('src', cuisine[slideShowCounter].image)
-    slideShowCounter++
-    if (slideShowCounter >= cuisine.length) {
-        slideShowCounter = 0
-    }
-    moviePoster.setAttribute('src', movieInfo[movieSlideCounter].image)
-    movieSlideCounter++
-    if (movieSlideCounter >= movieInfo.length) {
-        movieSlideCounter = 0
-    }
-}
-
+// initiates the fetches.
 initFetches()
 
-// const movieSlideTimer = setInterval(movieSlideshow, 1500)
-
-// const slideshow = setInterval(functionSlideshow, 1500)
-
-// make two onclick functions in the javascript, one for decisionMadeMovie and one for decisionMadeFood, based off of the linear nature of the logic
-// initFetches -> movie fetches -> movie into array -> display the first image -> onclick seperate functionality of decisionMadeMovie to display the next image until the array is done
-// once the array is done -> move onto foodFetch -> food info into array -> onclick functionality of seperate decisionMadeFood
-
-// splice the array so that we can just use the modified ones for profile 2
+// it's possible to click the button before the IMDB API fetches, so we hide it for a moment. It also draws the eye to the button popping in as a nice side effect.
 
 var instance = M.Carousel.init({
     fullWidth: true,
     indicators: true
 });
-
-// Or with jQuery
-
-// Carousel slider and timer
-// $('.carousel.carousel-slider').carousel({
-//     fullWidth: true,
-//     indicators: true,
-// });
 
 $(document).ready(function () {
 
