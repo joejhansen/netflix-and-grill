@@ -1,10 +1,13 @@
-
+#btnProfile1{
+    display: none;
+}
 
 .posters{
     width: 343px;
     height: 508px;
     border: solid #b71c1c 10px;  
     box-shadow: 5px 5px silver; 
+    margin: 1%;
     
 }
 
