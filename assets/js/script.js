@@ -122,9 +122,11 @@ function loadRestaurants(data) {
                         console.log(data.data[i].name)
                         row2Vanilla.innerHTML = "<h2>Your nearby " + finalPickedFood.category + " restaurant: " + data.data[i].name + "</h2><h2>Your movie: " + finalPickedMovie.title + "</h2>"
                         return
+                    } else {
+                        row2Vanilla.innerHTML = "<h2>No nearby " + finalPickedFood.category + " restaurants available!</h2><h2> But you can still watch " + finalPickedMovie.title + "</h2>"
                     }
                 } else {
-                    row2Vanilla.innerHTML = "<h2>No nearby " + finalPickedFood.category + " restaurant available!</h2><h2> But you can still watch " + finalPickedMovie.title + "</h2>"
+                    row2Vanilla.innerHTML = "<h2>No nearby " + finalPickedFood.category + " restaurants available!</h2><h2> But you can still watch " + finalPickedMovie.title + "</h2>"
                 }
             }
         }
